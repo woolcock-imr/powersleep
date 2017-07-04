@@ -1,0 +1,36 @@
+<div name=layout>
+    <div id=content_slot></div>
+    <div name=footer id=footer__ID></div>
+</div>
+<script>
+function F__ID(){
+	//------------------------------------
+	document.title="Woolcock Business Portal";
+	$('#footer__ID').html("Copyright © "+(new Date()).getFullYear()+", Woolcock Institute of Medical Research");
+	//------------------------------------
+	var on_load=function(){
+	    layout_resize();
+	    login_changed();
+	};
+	//---------------------------------------------
+	VmInclude:__LIB__/vmiis/common-code/layout/main_layout_process.3.js
+	//------------------------------------
+}
+</script>
+<style>
+    body{background:#fff;}
+	#footer__ID {
+        width:100%;
+        height:20px;
+        text-align:center;
+        font:95%/20px arial;
+        color:#fff;
+        background-color:#22222F;
+    }
+	#logo_label_mobile__ID {display:none;}
+    @media screen and (max-width:900px){
+        #long_footer__ID,#logo_image__ID{
+            display:none;
+        }
+    }
+</style>
