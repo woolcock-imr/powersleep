@@ -8,12 +8,56 @@ function F__ID(){
 	document.title="Woolcock Business Portal";
 	$('#footer__ID').html("Copyright © "+(new Date()).getFullYear()+", Woolcock Institute of Medical Research");
 	//------------------------------------
+	var UID='0';
+	var _config=$vm.app_config;	_config.module_ids={}
+	var _ids=_config.module_ids;
+	//------------------------------------
 	var on_load=function(){
-	    layout_resize();
-	    login_changed();
+		init();
+		var name=_ids['home'];
+		$vm.load_module_by_name(name,$vm.root_layout_content_slot,{
+			name:name,
+			mobj:$vm.vm['__ID'],
+			record:{UID:0},
+			sys:{
+				UID:0,
+				config:_config,
+			}
+		})
 	};
-	//---------------------------------------------
-	VmInclude:__LIB__/vmiis/common-code/layout/main_layout_process.3.js
+	//------------------------------------
+	var init=function(){
+		//------------------------------------
+		$vm.root_layout_content_slot="content_slot";
+		$vm.root_layout_header='header__ID';
+		$vm.root_layout_footer='footer__ID';
+		//------------------------------------
+		//create module list and id list
+		if(_config.modules!=undefined){
+			for(i=0;i<_config.modules.length;i++){
+				var aModule=_config.modules[i];
+				var m_id=aModule.module_id;
+				var new_m_id='M'+UID+'_'+m_id;
+				aModule.module_id=new_m_id;
+				$vm.module_list[new_m_id]=aModule;
+				_config.module_ids[m_id]=new_m_id;	//link module_id to new unique module
+			}
+		}
+		//---------------------------------------------
+		layout_resize();
+	}
+	//------------------------------------
+	var layout_resize=function(){
+		var header_height=$('#header__ID').outerHeight();
+	    $vm.min_height=$(window).height()-header_height-$('#footer__ID').outerHeight();
+	    $('#content_slot').css('min-height',$vm.min_height+'px');
+	}
+	//------------------------------------
+	window.addEventListener("resize", function(){
+		layout_resize()
+	});
+	//------------------------------------
+	on_load();
 	//------------------------------------
 }
 </script>

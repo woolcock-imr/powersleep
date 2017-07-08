@@ -5,10 +5,22 @@
 	"api_path":"https://cbs.wappsystem.com/dev/",
 	"server":"development",
 	"modules":
-	{
-		"home":
+	[
 		{
+			"module_id":"home",
+			"name":"Home",
 			"url":"https://woolcock-imr.github.io/modules/powersleep-registration/home.html"
+		},
+		{
+			"module_id":"registration",
+			"name":"Registration",
+			"table_id":"20010814",
+			"url":"https://woolcock-imr.github.io/modules/powersleep-registration/registration.html"
+		},
+		{
+			"module_id":"thanks",
+			"name":"Thamks",
+			"url":"https://woolcock-imr.github.io/modules/powersleep-registration/thanks.html"
 		}
-	}
+	]
 }
