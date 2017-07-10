@@ -1,0 +1,40 @@
+<div id=toolbar__ID>
+    <a id=home__ID>Home</a>
+</div>
+<section style='padding:30px'>
+	Thank you.
+</section>
+<script>
+    function F__ID(){
+        //-------------------------------------
+        VmInclude:__PARTS__/style/ease-in-out.2.js
+        //-------------------------------------
+		var _mlist=$vm.module_list;
+		var _mobj=$vm.vm['__ID'];
+		var _sys='';
+		var _config='';
+		var _ids='';
+		if(_mobj.op!=undefined && _mobj.op.sys!=undefined){
+			_sys=_mobj.op.sys;
+			if(_sys.config!=undefined){
+				_config=_sys.config;
+				if(_config.module_ids!=undefined){
+					_ids=_config.module_ids;
+				}
+			}
+		}
+        //-------------------------------------
+        $('#home__ID').on('click',function(){
+			var module_id=_ids["home"];
+			$vm.load_module_by_name(module_id,$vm.root_layout_content_slot,{
+				mobj:_mobj,
+				sys:_sys,
+			})
+		})
+		//-------------------------------------
+    }
+</script>
+<style>
+	VmInclude:__PARTS__/toolbar/toolbar.css
+    VmInclude:__PARTS__/style/ease-in-out.2.css
+</style>

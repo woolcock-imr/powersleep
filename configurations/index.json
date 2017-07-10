@@ -1,0 +1,26 @@
+{
+	"library_path":"https://cbs.wappsystem.com/dev/github",
+	"parts_path":"https://vmiis.github.io/parts",
+	"image_path":"https://image.datalinkedin.com",
+	"api_path":"https://cbs.wappsystem.com/dev/",
+	"server":"development",
+	"modules":
+	[
+		{
+			"module_id":"home",
+			"name":"Home",
+			"url":"https://woolcock-imr.github.io/powersleep-registration/modules/home.html"
+		},
+		{
+			"module_id":"registration",
+			"name":"Registration",
+			"table_id":"20010814",
+			"url":"https://woolcock-imr.github.io/powersleep-registration/modules/registration.html"
+		},
+		{
+			"module_id":"thanks",
+			"name":"Thamks",
+			"url":"https://woolcock-imr.github.io/powersleep-registration/modules/thanks.html"
+		}
+	]
+}
