@@ -5,7 +5,7 @@
 <script>
 function F__ID(){
 	//------------------------------------
-	document.title="Registration";
+	document.title="Powersleep Registration";
 	$('#footer__ID').html("Copyright © "+(new Date()).getFullYear()+", Woolcock Institute of Medical Research");
 	//------------------------------------
 	var UID='0';
@@ -47,100 +47,21 @@ function F__ID(){
 			}
 		}
 		//---------------------------------------------
+		layout_resize();
 	}
 	//------------------------------------
-		/*
-
-		if($vm.module_list[name]==undefined){
-				var url=_config.modules[name].url;
-				url+='?_v='+$vm.version+$vm.reload;
-				url=$vm.url(url);
-				//---------------------------
-				var module="L_0_"+name;
-				if($vm.module_list[module]==undefined){
-					$vm.module_list[module]={
-						url:url,
-						var:{},
-					}
-				}
-				//---------------------------
-				$vm.load_module_by_name(module,$vm.root_layout_content_slot,{
-					name:name,
-					mobj:$vm.vm['__ID'],
-					record:{UID:0},
-					//panel:'main_panel',
-					//panel_name:panel_name,
-					sys:{
-						//config:config,
-						UID:0,
-					}
-				})
-				$vm.config_list[name]=$vm.module_list[module].id;
-			}
-			else if($vm.app_config.panels[name].config_url!=undefined){
-				//this is for panels
-				var url=$vm.app_config.panels[name].config_url;
-				url+='?_v='+$vm.version+$vm.reload;
-				url=$vm.url(url);
-				console.log('loading '+url)
-				$.get(url,function(txt){
-					//here is control panel json text
-					var text=$('<div/>').html(txt).text();
-					//---------------------------
-					var config;
-					try{
-						config=JSON.parse(text);
-					}
-					catch (e){
-						alert("Error in app config file\n"+e);
-						return;
-					}
-					var panel_url="";
-					var panel_name="";
-					if(config.panel!==undefined){
-						panel_url=config.url;
-						panel_name=config.name;
-					}
-					else if(config.panels!==undefined){
-						panel_url=config.panels.main_panel.url;
-						panel_name=config.panels.main_panel.name;
-					}
-					//---------------------------
-					var module="L_0_"+name;
-					if($vm.module_list[module]==undefined){
-						$vm.module_list[module]={
-							url:panel_url,
-							var:{},
-						}
-					}
-					//---------------------------
-					//console.log('loding panel '+panel_url)
-					$vm.load_module_by_name(module,$vm.root_layout_content_slot,{
-						name:panel_name,
-						mobj:$vm.vm['__ID'],
-						record:{UID:0},
-						panel:'main_panel',
-						panel_name:panel_name,
-						sys:{
-							config:config,
-							UID:0,
-						}
-					})
-					$vm.config_list[name]=$vm.module_list[module].id;
-				},'text').fail(function() {
-					alert( "The file '"+$vm.app_config.panels[name].config_url+"' doesn't exist!" );
-				});
-			}
-		}
-		else{
-			var id=$vm.config_list[name];
-			$vm.show_module(id,$vm.root_layout_content_slot);
-		}
-		*/
-	//---------------------------------------------
-	//Vm Include:__LIB__/vmiis/common-code/layout/main_layout_process.3.js
+	var layout_resize=function(){
+		var header_height=$('#header__ID').outerHeight();
+	    $vm.min_height=$(window).height()-header_height-$('#footer__ID').outerHeight();
+	    $('#content_slot').css('min-height',$vm.min_height+'px');
+	}
+	//------------------------------------
+	window.addEventListener("resize", function(){
+		layout_resize()
+	});
 	//------------------------------------
 	on_load();
+	//------------------------------------
 }
 </script>
 <style>
