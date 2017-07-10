@@ -9,18 +9,18 @@
 		{
 			"module_id":"home",
 			"name":"Home",
-			"url":"https://woolcock-imr.github.io/modules/powersleep-registration/home.html"
+			"url":"https://woolcock-imr.github.io/modules/home.html"
 		},
 		{
 			"module_id":"registration",
 			"name":"Registration",
 			"table_id":"20010814",
-			"url":"https://woolcock-imr.github.io/powersleep-registration/modules/registration.html"
+			"url":"https://woolcock-imr.github.io/modules/registration.html"
 		},
 		{
 			"module_id":"thanks",
 			"name":"Thamks",
-			"url":"https://woolcock-imr.github.io/powersleep-registration/modules/thanks.html"
+			"url":"https://woolcock-imr.github.io/modules/thanks.html"
 		}
 	]
 }
