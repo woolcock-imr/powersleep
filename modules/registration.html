@@ -1,30 +1,63 @@
 <div id=toolbar__ID>
     <a id=back__ID>Back</a>
 </div>
-<section style='padding:30px'>
+<section>
 	<form id=F__ID>
-		<div>
-			First Name
-		</div>
-		<div>
-			<input id=First_Name__ID />
-		</div>
-		<div>
-			Last Name
-		</div>
-		<div>
-			<input id=Last_Name__ID />
-		</div>
-		<div>
-			Email
-		</div>
-		<div>
-			<input id=Email__ID />
-		</div>
-		<div>
-			<br>
-			<br>
-			<a id=submit__ID class=btn__ID>Submit</a>
+		<div class=container__ID>
+			<ul>
+				<li>
+					<label class=lable__ID>First Name</label>
+					<div><input id=First_Name__ID /></div>
+				</li>
+				<li>
+					<label class=lable__ID>Last Name</label>
+					<div><input id=Last_Name__ID /></div>
+				</li>
+				<li>
+					<label class=lable__ID>Phone Number</label>
+					<div><input id=Phone_Number__ID /></div>
+				</li>
+				<li>
+					<label class=lable__ID>Email</label>
+					<div><input id=Email__ID /></div>
+				</li>
+				<li>
+					<label class=lable__ID>Postcode</label>
+					<div><input id=Postcode__ID /></div>
+				</li>
+				<li>
+					<label class=lable__ID>How did you find out about this study?</label>
+					<div>
+						<select id=Study_find__ID>
+							<option value='' >...</option>
+							<option value='1' >Woolcock Institute Website</option>
+							<option value='2' >Sleep Physician Referral</option>
+							<option value='3' >Advertising Flier</option>
+							<option value='4' >Internet Search</option>
+							<option value='5' >Facebook</option>
+							<option value='6' >LinkedIn</option>
+							<option value='7' >Twitter</option>
+							<option value='8' >University website</option>
+							<option value='9' >Radio</option>
+							<option value='10' >TV</option>
+							<option value='11' >Newspaper Article</option>
+							<option value='12' >Word of Mouth</option>
+							<option value='13' >Not specified</option>
+							<option value='14' >Sleep Health Foundation Website</option>
+							<option value='15' >CRC Website</option>
+							<option value='16' >Received an email</option>
+							<option value='17' >GP</option>
+							<option value='18' >Pharmacy</option>
+							<option value='19' >Other</option>
+						</select>
+					</div>
+				</li>
+			</ul>
+			<div>
+				<br>
+				<br>
+				<a id=submit__ID class=btn__ID>Submit</a>
+			</div>
 		</div>
 	</form>
 </section>
@@ -58,15 +91,24 @@
         })
         //-------------------------------------
         $('#submit__ID').on('click',function(){
+			//-------------------------------------
+			//validation
 			if($('#First_Name__ID').val()===''){    $vm.alert("First name is compulsory");    return;            }
             if($('#Last_Name__ID').val()===''){     $vm.alert("Last name is compulsory");     return;            }
 			if($('#Email__ID').val()===''){         $vm.alert("Email is compulsory");         return;            }
+			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if(re.test($('#Email__ID').val())===false){
+                $vm.alert("Invalid email format");
+                return;
+            }
+			//-------------------------------------
             var record={}
 			record.First_Name=$('#First_Name__ID').val();
             record.Last_Name=$('#Last_Name__ID').val();
-            //record.Phone=$('#Phone__ID').val();
-            //record.Postcode=$('#Postcode__ID').val();
+            record.Phone=$('#Phone__ID').val();
             record.Email=$('#Email__ID').val();
+			record.Postcode=$('#Postcode__ID').val();
+			record.Study_find=$('#Study_find__ID').val();
 			var dbv={};
             dbv.S1=$('#Email__ID').val();
             dbv.S2=$('#Email__ID').val();
@@ -142,6 +184,32 @@
 <style>
 	VmInclude:__PARTS__/toolbar/toolbar.css
     VmInclude:__PARTS__/style/ease-in-out.2.css
+	.container__ID{
+		margin-top:30px;
+		width:600px;
+		padding-top:30px;
+		padding-left:30px;
+		padding-right:30px;
+		padding-bottom:50px;
+		margin-left: auto;
+		margin-right: auto;
+		border: 1px solid #eee;
+	}
+	.container__ID ul{
+		list-style-type: none;
+		padding-left:0px;
+	}
+	.container__ID ul li{
+		margin: 0;
+	    padding: 6px 1% 9px 1%;
+	    clear: both;
+	    position: relative;
+	    transition: background-color 350ms ease-out;
+	}
+	.container__ID ul li:hover{
+		background-color: #fff7c0;
+	}
+
 	.btn__ID {
 	  background: #3498db;
 	  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
