@@ -64,9 +64,15 @@ $(document).ready(function(){
 			$vm.debug        =true;
 		}
 		//--------------------------------------------------------
-		$vm.server          =config.server;
-		$VmAPI.api_base     =config.api_path;
-		$vm.debug_message   =true;
+		if(window.location.toString().indexOf('server=development')!=-1){
+			$vm.server          ='development';
+			$VmAPI.api_base     =config.api_path_development;
+		}
+		else{
+			$vm.server          ='production';
+			$VmAPI.api_base     =config.api_path_production;
+		}
+		$vm.debug_message=true;
 		//--------------------------------------------------------
 		load_vmapi();
 	}
