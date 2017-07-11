@@ -7,51 +7,67 @@
 		<div class=container__ID>
 			<ul>
 				<li>
-					<label class=lable__ID>First Name</label>
+					<label class=label__ID>First Name</label>
 					<div><input id=First_Name__ID /></div>
 				</li>
 				<li>
-					<label class=lable__ID>Last Name</label>
+					<label class=label__ID>Last Name</label>
 					<div><input id=Last_Name__ID /></div>
 				</li>
 				<li>
-					<label class=lable__ID>Phone Number</label>
+					<label class=label__ID>Phone Number</label>
 					<div><input id=Phone_Number__ID /></div>
 				</li>
 				<li>
-					<label class=lable__ID>Email</label>
+					<label class=label__ID>Email</label>
 					<div><input id=Email__ID /></div>
 				</li>
 				<li>
-					<label class=lable__ID>Postcode</label>
+					<label class=label__ID>Postcode</label>
 					<div><input id=Postcode__ID /></div>
 				</li>
 				<li>
-					<label class=lable__ID>How did you find out about this study?</label>
+					<label class=label__ID>How did you find out about this study?</label>
 					<div>
 						<select id=Study_find__ID>
-							<option value='' >...</option>
-							<option value='1' >Woolcock Institute Website</option>
-							<option value='2' >Sleep Physician Referral</option>
-							<option value='3' >Advertising Flier</option>
-							<option value='4' >Internet Search</option>
-							<option value='5' >Facebook</option>
-							<option value='6' >LinkedIn</option>
-							<option value='7' >Twitter</option>
-							<option value='8' >University website</option>
-							<option value='9' >Radio</option>
-							<option value='10' >TV</option>
-							<option value='11' >Newspaper Article</option>
-							<option value='12' >Word of Mouth</option>
-							<option value='13' >Not specified</option>
-							<option value='14' >Sleep Health Foundation Website</option>
-							<option value='15' >CRC Website</option>
-							<option value='16' >Received an email</option>
-							<option value='17' >GP</option>
-							<option value='18' >Pharmacy</option>
-							<option value='19' >Other</option>
+							<option >...</option>
+							<option>Woolcock Institute Website</option>
+							<option>Sleep Physician Referral</option>
+							<option>Advertising Flier</option>
+							<option>Internet Search</option>
+							<option>Facebook</option>
+							<option>LinkedIn</option>
+							<option>Twitter</option>
+							<option>University website</option>
+							<option>Radio</option>
+							<option>TV</option>
+							<option>Newspaper Article</option>
+							<option>Word of Mouth</option>
+							<option>Not specified</option>
+							<option>Sleep Health Foundation Website</option>
+							<option>CRC Website</option>
+							<option>Received an email</option>
+							<option>GP</option>
+							<option>Pharmacy</option>
+							<option>Other</option>
 						</select>
 					</div>
+				</li>
+				<li>
+					<label class=label__ID>Q1. Have you been diagnosed with Insomnia or Obstructive Sleep Apnoea? </label>
+					<div><input type=radio name=OSA__ID value=Yes /> Yes <input type=radio name=OSA__ID value=No /> No</div>
+				</li>
+				<li>
+					<label class=label__ID>Q2. Are you a regular shift worker?</label>
+					<div><input type=radio name=Shift__ID value=Yes /> Yes <input type=radio name=Shift__ID value=No /> No</div>
+				</li>
+				<li>
+					<label class=label__ID>Q3. Please enter your year of birth: YYYY</label>
+					<div><input id=Birth__ID /></div>
+				</li>
+				<li>
+					<label class=label__ID>Q4. Have you travelled across more than two time zones within the last two months?</label>
+					<div><input type=radio name=Travel__ID value=Yes /> Yes <input type=radio name=Travel__ID value=No /> No</div>
 				</li>
 			</ul>
 			<div>
@@ -91,6 +107,7 @@
             $('#F__ID')[0].reset();
         })
         //-------------------------------------
+		var Exclude=0;
         $('#submit__ID').on('click',function(){
 			//-------------------------------------
 			//validation
@@ -102,6 +119,11 @@
                 $vm.alert("Invalid email format");
                 return;
             }
+			if($('input[name=OSA__ID]:checked').val()==undefined){    $vm.alert("Q1 is compulsory");    return;            }
+			if($('input[name=Shift__ID]:checked').val()==undefined){    $vm.alert("Q2 is compulsory");    return;            }
+			if($('#Birth__ID').val()===''){    $vm.alert("Q3 is compulsory");    return;            }
+			if($('input[name=Travel__ID]:checked').val()==undefined){    $vm.alert("Q4 is compulsory");    return;            }
+			if( isNaN($('#Birth__ID').val())==true){ $vm.alert("Q3 must be a number"); return; }
 			//-------------------------------------
             var record={}
 			record.First_Name=$('#First_Name__ID').val();
@@ -110,6 +132,19 @@
             record.Email=$('#Email__ID').val();
 			record.Postcode=$('#Postcode__ID').val();
 			record.Study_find=$('#Study_find__ID').val();
+			record.OSA=$('input[name=OSA__ID]:checked').val();
+			record.Shift=$('input[name=Shift__ID]:checked').val();
+			record.Birth=$('#Birth__ID').val();
+			record.Travel=$('input[name=Travel__ID]:checked').val();
+
+			Exclude=0;
+			if(record.OSA=='Yes') Exclude=1;
+			if(record.Shift=='Yes') Exclude=1;
+			if(record.Travel=='Yes') Exclude=1;
+			var year=parseInt(record.Birth)
+			if(year<1966) Exclude=1;
+			if(year>1987) Exclude=1;
+
 			var dbv={};
             dbv.S1=$('#Email__ID').val();
             dbv.S2=$('#Email__ID').val();
@@ -125,17 +160,22 @@
 		})
 		//-------------------------------------
 		var create_questionnaire_participant_record=function(res){
-            var registration_id=res.uid;
-            var record={Registration_ID:registration_id};
-            var dbv={S1:registration_id,S2:registration_id};
-			var req={cmd:"s1_s2_unique_add_record",db_pid:questionnaire_participant_pid,data:record,dbv:dbv};
-            $VmAPI.request({data:req,callback:function(res2){
-				if(res2.ret=='-1'){
-					$vm.alert('The registration id already exists');
-					return;
-				}
-                create_questionnaire_participant_setup_record(res2);
-            }})
+			if(Exclude==0){
+	            var registration_id=res.uid;
+	            var record={Registration_ID:registration_id};
+	            var dbv={S1:registration_id,S2:registration_id};
+				var req={cmd:"s1_s2_unique_add_record",db_pid:questionnaire_participant_pid,data:record,dbv:dbv};
+	            $VmAPI.request({data:req,callback:function(res2){
+					if(res2.ret=='-1'){
+						$vm.alert('The registration id already exists');
+						return;
+					}
+	                create_questionnaire_participant_setup_record(res2);
+	            }})
+			}
+			else{
+				$vm.alert('Sorry, You are not eligable for this study. Thank you for your interest.');
+			}
         }
         //-------------------------------------
         var create_questionnaire_participant_setup_record=function(res2){
@@ -209,7 +249,10 @@
 	.container__ID ul li:hover{
 		background-color: #fff7c0;
 	}
-
+	.label__ID{
+		margin-bottom: 5px;
+		display:block;
+	}
 	.btn__ID {
 	  background: #3498db;
 	  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
